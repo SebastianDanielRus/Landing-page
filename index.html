@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lash & Beauty Studio</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(145deg, #4B0082, #8A2BE2, #FF69B4);
+      background-size: 200% 200%;
+      animation: gradientShift 15s ease infinite;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    @keyframes gradientShift {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .logo {
+      width: 130px;
+      height: auto;
+      margin-bottom: 10px;
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+    }
+
+    p {
+      max-width: 350px;
+      margin: 0 auto 25px;
+      font-size: 1rem;
+      color: #f1f1f1;
+      line-height: 1.4;
+    }
+
+    .cta-button {
+      padding: 14px 30px;
+      background-color: #87CEEB;
+      color: #fff;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .cta-button:hover {
+      background-color: #70B8D3;
+      transform: scale(1.05);
+    }
+
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 999;
+    }
+
+    .popup.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .popup-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+    }
+
+    .popup-content {
+      position: relative;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(18px);
+      border-radius: 18px;
+      padding: 25px 20px;
+      max-width: 360px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 1000;
+      animation: popIn 0.3s ease;
+    }
+
+    @keyframes popIn {
+      0% {transform: scale(0.9); opacity: 0;}
+      100% {transform: scale(1); opacity: 1;}
+    }
+
+    .popup-content h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      color: #fff;
+    }
+
+    .popup-content input, .popup-content select {
+      width: 85%;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      border: none;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.9);
+      font-size: 0.9rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .popup-content button {
+      width: 100%;
+      padding: 10px;
+      background-color: #87CEEB;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      color: #fff;
+      margin-top: 8px;
+    }
+
+    .popup-content button:hover {
+      background-color: #70B8D3;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .confirmation {
+      text-align: center;
+      color: #fff;
+      font-size: 1rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      h1 {font-size: 1.9rem;}
+      .popup-content {max-width: 90%;}
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js" aria-hidden="true"></div>
+
+  <!-- LOGO LOCAL -->
+  <img class="logo" src="logo.png" alt="Salon Lashes Logo">
+  <h1>Lash & Beauty Studio</h1>
+  <p>Extensii de gene premium realizate cu grijă. Programează-te și descoperă frumusețea!</p>
+  <button class="cta-button" id="openBooking">Programează-te</button>
+
+  <div class="popup" id="bookingPopup">
+    <div class="popup-overlay" id="popupOverlay"></div>
+    <div class="popup-content">
+      <span class="close-button" id="closeBooking">×</span>
+      <h2>Programează-te</h2>
+      <form id="bookingForm">
+        <input type="text" id="firstName" placeholder="Nume" required>
+        <input type="text" id="lastName" placeholder="Prenume" required>
+        <select id="lashModel" required>
+          <option value="">Model gene</option>
+          <option value="1D">1D</option>
+          <option value="2D">2D</option>
+          <option value="3D">3D</option>
+          <option value="4D">4D</option>
+        </select>
+        <input type="text" id="dateTime" placeholder="Alege ziua și ora" required>
+        <button type="submit">Trimite programarea</button>
+      </form>
+      <div class="confirmation" id="confirmationMsg">
+        ✅ Programarea ta a fost trimisă cu succes!
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      particlesJS("particles-js", {
+        "particles": {
+          "number": {"value": 80, "density": {"enable": true, "value_area": 800}},
+          "color": {"value": ["#4B0082", "#8A2BE2", "#FF69B4"]},
+          "shape": {"type": "circle"},
+          "opacity": {"value": 0.5, "random": true},
+          "size": {"value": 5, "random": true},
+          "line_linked": {"enable": false},
+          "move": {"enable": true, "speed": 1.5, "random": true, "out_mode": "out"}
+        },
+        "interactivity": {
+          "events": {"onhover": {"enable": true, "mode": "repulse"}},
+          "modes": {"repulse": {"distance": 100, "duration": 0.4}}
+        },
+        "retina_detect": true
+      });
+
+      flatpickr("#dateTime", {
+        enableTime: true,
+        dateFormat: "d-m-Y H:i",
+        minDate: "today",
+        time_24hr: true,
+        defaultHour: 10,
+        defaultMinute: 0
+      });
+    });
+
+    const openBooking = document.getElementById('openBooking');
+    const bookingPopup = document.getElementById('bookingPopup');
+    const closeBooking = document.getElementById('closeBooking');
+    const popupOverlay = document.getElementById('popupOverlay');
+    const bookingForm = document.getElementById('bookingForm');
+    const confirmationMsg = document.getElementById('confirmationMsg');
+
+    function showPopup() {
+      bookingPopup.classList.add('active');
+    }
+
+    function hidePopup() {
+      bookingPopup.classList.remove('active');
+      bookingForm.style.display = 'block';
+      confirmationMsg.style.display = 'none';
+    }
+
+    openBooking.addEventListener('click', showPopup);
+    closeBooking.addEventListener('click', hidePopup);
+    popupOverlay.addEventListener('click', hidePopup);
+
+    bookingForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = {
+        prenume: document.getElementById('firstName').value,
+        nume: document.getElementById('lastName').value,
+        model: document.getElementById('lashModel').value,
+        dataOra: document.getElementById('dateTime').value
+      };
+
+      await fetch("https://script.google.com/macros/s/AKfycbyIt-g5v5SpioUmcB6j5FjA40T4J-2QrPQda313ET7m1EkTEPu--t6F1uptM6_1S9CqMg/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      bookingForm.style.display = 'none';
+      confirmationMsg.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
